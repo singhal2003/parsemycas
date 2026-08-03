@@ -1,3 +1,16 @@
-// UNUSED — left over from an earlier Postgres/account-based version of this backend.
-// The app no longer uses a database or user accounts (see README). Safe to delete this file.
-// Current backend entry point: backend/src/index.js -> backend/src/routes/cas.routes.js
+const jwt = require("jsonwebtoken");
+
+function authMiddleware(req, res, next) {
+  const header = req.headers.authorization || "";
+  const token = header.startsWith("Bearer ") ? header.slice(7) : null;
+  if (!token) return res.status(401).json({ success: false, message: "Missing authorization token" });
+  try {
+    const payload = jwt.verify(token, process.env.JWT_SECRET);
+    req.user = { id: payload.id, email: payload.email };
+    next();
+  } catch (e) {
+    return res.status(401).json({ success: false, message: "Invalid or expired token" });
+  }
+}
+
+module.exports = authMiddleware;

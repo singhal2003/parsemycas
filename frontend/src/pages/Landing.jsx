@@ -27,7 +27,7 @@ const features = [
   {
     icon: ShieldCheck,
     title: "Nothing stored",
-    desc: "No account, no database. Your PDF is parsed and discarded — only the JSON result is shown to you.",
+    desc: "Your account is protected with verified email or Google sign-in, and your statements are only ever visible to you.",
   },
   {
     icon: PieChart,
@@ -37,9 +37,9 @@ const features = [
 ];
 
 const steps = [
-  { n: "1", title: "Upload your CAS", desc: "Drop in your NSDL/CDSL/CAMS/KFintech PDF (password-protected is fine)." },
-  { n: "2", title: "We parse it", desc: "The statement is sent to the parsing API and read back as structured JSON." },
-  { n: "3", title: "View or download", desc: "See every folio, scheme and transaction, copy it, or download the JSON file." },
+  { n: "1", title: "Sign up", desc: "Create a free account with email or Google, in a few seconds." },
+  { n: "2", title: "Upload your CAS", desc: "Drop in your NSDL/CDSL/CAMS/KFintech PDF (password-protected is fine)." },
+  { n: "3", title: "It's saved for you", desc: "View, copy or download the parsed JSON any time — it stays in your account." },
 ];
 
 export default function Landing() {
@@ -57,18 +57,18 @@ export default function Landing() {
           </h1>
           <p className="mt-5 text-lg text-slate-600 max-w-2xl mx-auto">
             Upload one consolidated account statement and get back every folio, scheme and
-            transaction as JSON — ready to view, copy or download. No account required.
+            transaction as JSON — saved to your account so it's there whenever you come back.
           </p>
           <div className="mt-8 flex items-center justify-center gap-4">
             <Link
-              to="/parse"
+              to="/signup"
               className="inline-flex items-center gap-2 bg-brand-600 hover:bg-brand-700 text-white font-medium rounded-lg px-6 py-3"
             >
               Parse my CAS <ArrowRight size={18} />
             </Link>
           </div>
           <p className="mt-4 text-xs text-slate-400">
-            Free to try. Nothing is stored.
+            Free to try. Sign up with email or Google.
           </p>
         </div>
       </section>
@@ -114,9 +114,9 @@ export default function Landing() {
         <h2 className="text-2xl sm:text-3xl font-bold text-slate-900">
           See your whole mutual fund portfolio in one place
         </h2>
-        <p className="mt-3 text-slate-600">No account needed, takes less than a minute.</p>
+        <p className="mt-3 text-slate-600">Free account, takes less than a minute to set up.</p>
         <Link
-          to="/parse"
+          to="/signup"
           className="mt-6 inline-flex items-center gap-2 bg-brand-600 hover:bg-brand-700 text-white font-medium rounded-lg px-6 py-3"
         >
           Parse my CAS <ArrowRight size={18} />

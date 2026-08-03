@@ -1,3 +1,18 @@
-# UNUSED — left over from an earlier Postgres-backed version of this project.
-# The app no longer uses a database (see README's "Why no database" section).
-# Safe to delete this file; nothing references it anymore.
+# Optional local Postgres for development.
+# Run:  docker compose up -d
+# Then: cd backend && cp .env.example .env && npm run db:init && npm run dev
+version: "3.8"
+services:
+  postgres:
+    image: postgres:16-alpine
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: parsemycas
+      POSTGRES_PASSWORD: parsemycas
+      POSTGRES_DB: parsemycas_db
+    ports:
+      - "5432:5432"
+    volumes:
+      - parsemycas_pgdata:/var/lib/postgresql/data
+volumes:
+  parsemycas_pgdata:

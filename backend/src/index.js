@@ -1,7 +1,8 @@
 require("dotenv").config();
 const express = require("express");
 const cors = require("cors");
-const casRoutes = require("./routes/cas.routes");
+const authRoutes = require("./routes/auth.routes");
+const statementsRoutes = require("./routes/statements.routes");
 const errorHandler = require("./middleware/errorHandler");
 const { isMockMode } = require("./services/casApi.service");
 
@@ -14,7 +15,8 @@ app.get("/api/health", (req, res) => {
   res.json({ status: "ok", mockMode: isMockMode() });
 });
 
-app.use("/api/cas", casRoutes);
+app.use("/api/auth", authRoutes);
+app.use("/api/statements", statementsRoutes);
 
 app.use((req, res) => res.status(404).json({ success: false, message: "Not found" }));
 app.use(errorHandler);

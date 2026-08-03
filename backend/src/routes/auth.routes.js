@@ -1,3 +1,29 @@
-// UNUSED — left over from an earlier Postgres/account-based version of this backend.
-// The app no longer uses a database or user accounts (see README). Safe to delete this file.
-// Current backend entry point: backend/src/index.js -> backend/src/routes/cas.routes.js
+const express = require("express");
+const authMiddleware = require("../middleware/auth");
+const {
+  signup,
+  verifyEmail,
+  resendVerification,
+  login,
+  me,
+  forgotPassword,
+  resetPassword,
+  deleteAccount,
+  googleAuthUrl,
+  googleCallback,
+} = require("../controllers/auth.controller");
+
+const router = express.Router();
+
+router.post("/signup", signup);
+router.post("/verify-email", verifyEmail);
+router.post("/resend-verification", resendVerification);
+router.post("/login", login);
+router.post("/forgot-password", forgotPassword);
+router.post("/reset-password", resetPassword);
+router.get("/me", authMiddleware, me);
+router.delete("/me", authMiddleware, deleteAccount);
+router.get("/google", googleAuthUrl);
+router.get("/google/callback", googleCallback);
+
+module.exports = router;
