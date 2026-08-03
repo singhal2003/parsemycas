@@ -1,0 +1,7 @@
+// UNUSED — kept only because this file couldn't be deleted from this session.
+// The backend does NOT use Prisma (its binary engine downloads were blocked by
+// the sandbox's network allowlist during development). The real schema is
+// plain SQL at backend/src/db/schema.sql, applied via `npm run db:init`
+// (see src/config/db.js and src/db/init.js).
+//
+// This whole `backend/prisma/` folder is safe to delete.

@@ -1,0 +1,3 @@
+# UNUSED — left over from an earlier Postgres-backed version of this project.
+# The app no longer uses a database (see README's "Why no database" section).
+# Safe to delete this file; nothing references it anymore.
