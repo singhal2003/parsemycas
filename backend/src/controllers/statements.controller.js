@@ -91,6 +91,21 @@ async function listStatements(req, res, next) {
   }
 }
 
+async function getStatement(req, res, next) {
+  try {
+    const result = await pool.query(
+      `SELECT id, file_name, cas_type, investor_name, pan, total_folios, total_schemes,
+              statement_period_from, statement_period_to, created_at, raw_data
+       FROM statements WHERE id = $1 AND user_id = $2`,
+      [req.params.id, req.user.id]
+    );
+    if (result.rows.length === 0) return res.status(404).json({ success: false, message: "Statement not found" });
+    res.json({ success: true, statement: result.rows[0] });
+  } catch (e) {
+    next(e);
+  }
+}
+
 async function getStatementRaw(req, res, next) {
   try {
     const result = await pool.query(
@@ -122,4 +137,4 @@ async function deleteStatement(req, res, next) {
   }
 }
 
-module.exports = { uploadStatement, listStatements, getStatementRaw, deleteStatement };
+module.exports = { uploadStatement, listStatements, getStatement, getStatementRaw, deleteStatement };

@@ -1,11 +1,13 @@
 import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import api from "../lib/api";
 import UploadModal from "../components/UploadModal";
 import { useAuth } from "../context/AuthContext";
-import { Plus, FileText, Trash2, Download } from "lucide-react";
+import { Plus, FileText, Trash2, Download, BarChart3 } from "lucide-react";
 
 export default function Dashboard() {
   const { user } = useAuth();
+  const navigate = useNavigate();
   const [statements, setStatements] = useState([]);
   const [loading, setLoading] = useState(true);
   const [showUpload, setShowUpload] = useState(false);
@@ -102,12 +104,20 @@ export default function Dashboard() {
                 <div className="text-xs text-slate-400 mt-2">
                   {s.statement_period_from} → {s.statement_period_to}
                 </div>
-                <button
-                  onClick={() => handleDownloadJson(s.id, s.file_name)}
-                  className="mt-4 inline-flex items-center justify-center gap-1 text-sm font-medium text-brand-600 hover:text-brand-700 border border-brand-200 hover:bg-brand-50 rounded-lg py-2"
-                >
-                  <Download size={14} /> Download JSON
-                </button>
+                <div className="mt-4 grid grid-cols-2 gap-2">
+                  <button
+                    onClick={() => navigate(`/statements/${s.id}`)}
+                    className="inline-flex items-center justify-center gap-1 text-sm font-medium text-white bg-brand-600 hover:bg-brand-700 rounded-lg py-2"
+                  >
+                    <BarChart3 size={14} /> Analytics
+                  </button>
+                  <button
+                    onClick={() => handleDownloadJson(s.id, s.file_name)}
+                    className="inline-flex items-center justify-center gap-1 text-sm font-medium text-brand-600 hover:text-brand-700 border border-brand-200 hover:bg-brand-50 rounded-lg py-2"
+                  >
+                    <Download size={14} /> JSON
+                  </button>
+                </div>
               </div>
             ))}
           </div>
@@ -117,9 +127,9 @@ export default function Dashboard() {
       {showUpload && (
         <UploadModal
           onClose={() => setShowUpload(false)}
-          onUploaded={() => {
+          onUploaded={(statement) => {
             setShowUpload(false);
-            fetchStatements();
+            navigate(`/statements/${statement.id}`);
           }}
         />
       )}

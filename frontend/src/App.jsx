@@ -12,6 +12,7 @@ import ResetPassword from "./pages/ResetPassword";
 import AuthCallback from "./pages/AuthCallback";
 import Dashboard from "./pages/Dashboard";
 import Account from "./pages/Account";
+import StatementView from "./pages/StatementView";
 
 export default function App() {
   return (
@@ -40,6 +41,14 @@ export default function App() {
               element={
                 <ProtectedRoute>
                   <Account />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/statements/:id"
+              element={
+                <ProtectedRoute>
+                  <StatementView />
                 </ProtectedRoute>
               }
             />

@@ -5,6 +5,7 @@ const authMiddleware = require("../middleware/auth");
 const {
   uploadStatement,
   listStatements,
+  getStatement,
   getStatementRaw,
   deleteStatement,
 } = require("../controllers/statements.controller");
@@ -25,6 +26,7 @@ const upload = multer({
 router.use(authMiddleware);
 router.post("/upload", upload.single("file"), uploadStatement);
 router.get("/", listStatements);
+router.get("/:id", getStatement);
 router.get("/:id/raw", getStatementRaw);
 router.delete("/:id", deleteStatement);
 
