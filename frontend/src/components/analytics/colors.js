@@ -1,6 +1,6 @@
 // Fixed palette so charts get stable, distinguishable colors without a charting library.
 export const PALETTE = [
-  "#274fea", // brand-600
+  "#3d6ef5", // brand-500
   "#22c55e", // green-500
   "#f59e0b", // amber-500
   "#ec4899", // pink-500

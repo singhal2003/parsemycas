@@ -5,7 +5,7 @@ export default function SchemeTable({ schemes }) {
   const [query, setQuery] = useState("");
 
   if (!schemes || schemes.length === 0) {
-    return <div className="text-sm text-slate-400">No mutual fund schemes found in this statement.</div>;
+    return <div className="text-sm text-slate-500">No mutual fund schemes found in this statement.</div>;
   }
 
   const filtered = query
@@ -26,12 +26,12 @@ export default function SchemeTable({ schemes }) {
         value={query}
         onChange={(e) => setQuery(e.target.value)}
         placeholder="Search by scheme, AMC or folio..."
-        className="mb-3 w-full sm:w-72 rounded-lg border border-slate-300 px-3 py-1.5 text-sm focus:outline-none focus:ring-2 focus:ring-brand-500"
+        className="mb-3 w-full sm:w-72 rounded-lg border border-slate-700 bg-slate-950/60 text-slate-100 placeholder-slate-500 px-3 py-1.5 text-sm focus:outline-none focus:ring-2 focus:ring-brand-500 focus:border-brand-500"
       />
       <div className="overflow-x-auto -mx-5 px-5">
         <table className="w-full text-sm min-w-[720px]">
           <thead>
-            <tr className="text-left text-xs text-slate-400 border-b border-slate-200">
+            <tr className="text-left text-xs text-slate-500 border-b border-slate-800">
               <th className="py-2 pr-4 font-medium">Scheme</th>
               <th className="py-2 pr-4 font-medium">AMC</th>
               <th className="py-2 pr-4 font-medium">Folio</th>
@@ -43,20 +43,20 @@ export default function SchemeTable({ schemes }) {
           </thead>
           <tbody>
             {filtered.map((s, i) => (
-              <tr key={i} className="border-b border-slate-100 hover:bg-slate-50">
+              <tr key={i} className="border-b border-slate-800/60 hover:bg-slate-800/30">
                 <td className="py-2 pr-4">
-                  <div className="font-medium text-slate-800">{s.name}</div>
-                  {s.isin && <div className="text-xs text-slate-400">{s.isin}</div>}
+                  <div className="font-medium text-slate-200">{s.name}</div>
+                  {s.isin && <div className="text-xs text-slate-500">{s.isin}</div>}
                 </td>
-                <td className="py-2 pr-4 text-slate-600">{s.amc || "—"}</td>
-                <td className="py-2 pr-4 text-slate-600">{s.folioNumber || "—"}</td>
-                <td className="py-2 pr-4 text-right text-slate-700">{formatNumber(s.units)}</td>
-                <td className="py-2 pr-4 text-right text-slate-700">{formatCurrency(s.cost)}</td>
-                {anyValue && <td className="py-2 pr-4 text-right text-slate-700">{formatCurrency(s.value)}</td>}
+                <td className="py-2 pr-4 text-slate-400">{s.amc || "—"}</td>
+                <td className="py-2 pr-4 text-slate-400">{s.folioNumber || "—"}</td>
+                <td className="py-2 pr-4 text-right text-slate-300">{formatNumber(s.units)}</td>
+                <td className="py-2 pr-4 text-right text-slate-300">{formatCurrency(s.cost)}</td>
+                {anyValue && <td className="py-2 pr-4 text-right text-slate-300">{formatCurrency(s.value)}</td>}
                 {anyValue && (
                   <td
                     className={`py-2 pr-4 text-right ${
-                      s.gainAbsolute > 0 ? "text-emerald-600" : s.gainAbsolute < 0 ? "text-rose-600" : "text-slate-400"
+                      s.gainAbsolute > 0 ? "text-emerald-400" : s.gainAbsolute < 0 ? "text-rose-400" : "text-slate-500"
                     }`}
                   >
                     {s.gainAbsolute === null ? "—" : formatCurrency(s.gainAbsolute)}
@@ -71,7 +71,7 @@ export default function SchemeTable({ schemes }) {
         </table>
       </div>
       {someMissingValue && (
-        <p className="text-xs text-slate-400 mt-3">
+        <p className="text-xs text-slate-500 mt-3">
           {anyValue
             ? "Rows showing — for Value/Gain don't have a current NAV in this statement (only cost and unit balances were extracted for them)."
             : "This statement doesn't include current NAV/market value for these schemes — only cost and unit balances were extracted from the PDF."}

@@ -8,6 +8,7 @@ const {
   getStatement,
   getStatementRaw,
   deleteStatement,
+  clearMyData,
 } = require("../controllers/statements.controller");
 
 const router = express.Router();
@@ -26,6 +27,7 @@ const upload = multer({
 router.use(authMiddleware);
 router.post("/upload", upload.single("file"), uploadStatement);
 router.get("/", listStatements);
+router.delete("/", clearMyData);
 router.get("/:id", getStatement);
 router.get("/:id/raw", getStatementRaw);
 router.delete("/:id", deleteStatement);

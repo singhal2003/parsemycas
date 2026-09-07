@@ -95,17 +95,17 @@ export default function NsdlCdslAnalytics({ raw }) {
           <Section title="Demat accounts">
             <div className="space-y-4">
               {accounts.map((acc, i) => (
-                <div key={i} className="border border-slate-100 rounded-lg p-4">
+                <div key={i} className="border border-slate-800 rounded-lg p-4">
                   <div className="flex items-center justify-between flex-wrap gap-2">
                     <div>
-                      <span className="text-xs font-medium text-brand-700 bg-brand-50 rounded-full px-2 py-0.5 uppercase">
+                      <span className="text-xs font-medium text-brand-300 bg-brand-500/10 border border-brand-500/20 rounded-full px-2 py-0.5 uppercase">
                         {acc.demat_type || "Demat"}
                       </span>
-                      <span className="ml-2 text-sm font-medium text-slate-800">{acc.dp_name || "—"}</span>
+                      <span className="ml-2 text-sm font-medium text-slate-200">{acc.dp_name || "—"}</span>
                     </div>
-                    <div className="text-sm text-slate-600">{formatCurrency(acc.value ?? acc.total_value)}</div>
+                    <div className="text-sm text-slate-300">{formatCurrency(acc.value ?? acc.total_value)}</div>
                   </div>
-                  <div className="text-xs text-slate-400 mt-1">
+                  <div className="text-xs text-slate-500 mt-1">
                     DP ID: {acc.dp_id || "—"} · Client ID: {acc.client_id || "—"} · BO ID: {acc.bo_id || "—"}
                   </div>
                 </div>
@@ -118,7 +118,7 @@ export default function NsdlCdslAnalytics({ raw }) {
               <div className="overflow-x-auto -mx-5 px-5">
                 <table className="w-full text-sm min-w-[640px]">
                   <thead>
-                    <tr className="text-left text-xs text-slate-400 border-b border-slate-200">
+                    <tr className="text-left text-xs text-slate-500 border-b border-slate-800">
                       <th className="py-2 pr-4 font-medium">Security</th>
                       <th className="py-2 pr-4 font-medium">Type</th>
                       <th className="py-2 pr-4 font-medium text-right">Quantity</th>
@@ -127,14 +127,14 @@ export default function NsdlCdslAnalytics({ raw }) {
                   </thead>
                   <tbody>
                     {flatDematHoldings.map((h, i) => (
-                      <tr key={i} className="border-b border-slate-100 hover:bg-slate-50">
+                      <tr key={i} className="border-b border-slate-800/60 hover:bg-slate-800/30">
                         <td className="py-2 pr-4">
-                          <div className="font-medium text-slate-800">{h.name}</div>
-                          {h.isin && <div className="text-xs text-slate-400">{h.isin}</div>}
+                          <div className="font-medium text-slate-200">{h.name}</div>
+                          {h.isin && <div className="text-xs text-slate-500">{h.isin}</div>}
                         </td>
-                        <td className="py-2 pr-4 text-slate-600">{h.bucket}</td>
-                        <td className="py-2 pr-4 text-right text-slate-700">{formatNumber(h.quantity)}</td>
-                        <td className="py-2 pr-4 text-right text-slate-700">
+                        <td className="py-2 pr-4 text-slate-400">{h.bucket}</td>
+                        <td className="py-2 pr-4 text-right text-slate-300">{formatNumber(h.quantity)}</td>
+                        <td className="py-2 pr-4 text-right text-slate-300">
                           {h.value === null ? "—" : formatCurrency(h.value)}
                         </td>
                       </tr>

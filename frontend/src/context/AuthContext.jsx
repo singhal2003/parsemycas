@@ -1,5 +1,13 @@
 import { createContext, useContext, useEffect, useState } from "react";
-import api from "../lib/api";
+import {
+  AUTH_STORAGE_KEY,
+  googleLogin as apiGoogleLogin,
+  emailPasswordLogin as apiEmailLogin,
+  requestSignupOtp as apiRequestSignupOtp,
+  completeEmailSignup as apiCompleteSignup,
+  requestForgotPasswordOtp as apiRequestForgotPasswordOtp,
+  resetPassword as apiResetPassword,
+} from "../lib/niveshStar";
 
 const AuthContext = createContext(null);
 
@@ -8,75 +16,52 @@ export function AuthProvider({ children }) {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    const token = localStorage.getItem("parsemycas_token");
-    if (!token) {
-      setLoading(false);
-      return;
+    try {
+      const stored = localStorage.getItem(AUTH_STORAGE_KEY);
+      if (stored) setUser(JSON.parse(stored));
+    } catch {
+      // ignore corrupt storage
     }
-    api
-      .get("/auth/me")
-      .then(({ data }) => setUser(data.user))
-      .catch(() => {
-        localStorage.removeItem("parsemycas_token");
-      })
-      .finally(() => setLoading(false));
+    setLoading(false);
   }, []);
 
-  function persistToken(token) {
-    localStorage.setItem("parsemycas_token", token);
+  function persist(authUser) {
+    localStorage.setItem(AUTH_STORAGE_KEY, JSON.stringify(authUser));
+    setUser(authUser);
   }
 
-  async function signup(name, email, password) {
-    const { data } = await api.post("/auth/signup", { name, email, password });
-    return data; // { success, message, email } — not logged in yet, needs verification
+  async function login(idToken) {
+    const authUser = await apiGoogleLogin(idToken);
+    persist(authUser);
+    return authUser;
   }
 
-  async function verifyEmail(email, code) {
-    const { data } = await api.post("/auth/verify-email", { email, code });
-    persistToken(data.token);
-    setUser(data.user);
-    return data.user;
+  async function loginWithEmail(email, password) {
+    const authUser = await apiEmailLogin(email, password);
+    persist(authUser);
+    return authUser;
   }
 
-  async function resendVerification(email) {
-    const { data } = await api.post("/auth/resend-verification", { email });
-    return data;
+  async function requestSignupOtp(email) {
+    return apiRequestSignupOtp(email);
   }
 
-  async function login(email, password) {
-    const { data } = await api.post("/auth/login", { email, password });
-    persistToken(data.token);
-    setUser(data.user);
-    return data.user;
+  async function completeSignup(otpId, otp, password, confirmPassword) {
+    const authUser = await apiCompleteSignup(otpId, otp, password, confirmPassword);
+    persist(authUser);
+    return authUser;
   }
 
-  async function loginWithToken(token) {
-    persistToken(token);
-    const { data } = await api.get("/auth/me");
-    setUser(data.user);
-    return data.user;
+  async function requestForgotPasswordOtp(email) {
+    return apiRequestForgotPasswordOtp(email);
+  }
+
+  async function resetPassword(otpId, otp, password) {
+    await apiResetPassword(otpId, otp, password);
   }
 
   function logout() {
-    localStorage.removeItem("parsemycas_token");
-    setUser(null);
-  }
-
-  async function forgotPassword(email) {
-    const { data } = await api.post("/auth/forgot-password", { email });
-    return data;
-  }
-
-  async function resetPassword(email, code, newPassword) {
-    const { data } = await api.post("/auth/reset-password", { email, code, newPassword });
-    persistToken(data.token);
-    setUser(data.user);
-    return data.user;
-  }
-
-  async function deleteAccount() {
-    await api.delete("/auth/me");
-    localStorage.removeItem("parsemycas_token");
+    localStorage.removeItem(AUTH_STORAGE_KEY);
     setUser(null);
   }
 
@@ -85,15 +70,13 @@ export function AuthProvider({ children }) {
       value={{
         user,
         loading,
-        signup,
-        verifyEmail,
-        resendVerification,
         login,
-        loginWithToken,
-        logout,
-        forgotPassword,
+        loginWithEmail,
+        requestSignupOtp,
+        completeSignup,
+        requestForgotPasswordOtp,
         resetPassword,
-        deleteAccount,
+        logout,
       }}
     >
       {children}

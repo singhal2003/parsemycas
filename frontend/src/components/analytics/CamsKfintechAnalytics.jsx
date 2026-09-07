@@ -59,15 +59,15 @@ export default function CamsKfintechAnalytics({ raw }) {
         <Section title="Folios" subtitle={`${folios.length} folio${folios.length === 1 ? "" : "s"} across all AMCs`}>
           <div className="space-y-3">
             {folios.map((f, i) => (
-              <div key={i} className="border border-slate-100 rounded-lg p-3 flex items-center justify-between flex-wrap gap-2">
+              <div key={i} className="border border-slate-800 rounded-lg p-3 flex items-center justify-between flex-wrap gap-2">
                 <div>
-                  <div className="font-medium text-slate-800 text-sm">{f.amc || "Unknown AMC"}</div>
-                  <div className="text-xs text-slate-400">Folio {f.folio_number}</div>
+                  <div className="font-medium text-slate-200 text-sm">{f.amc || "Unknown AMC"}</div>
+                  <div className="text-xs text-slate-500">Folio {f.folio_number}</div>
                 </div>
-                <div className="text-xs text-slate-500 flex items-center gap-3">
+                <div className="text-xs text-slate-400 flex items-center gap-3">
                   <span>{(f.schemes || []).length} scheme{(f.schemes || []).length === 1 ? "" : "s"}</span>
                   {f.additional_info?.kyc && (
-                    <span className="bg-slate-100 rounded-full px-2 py-0.5">KYC: {f.additional_info.kyc}</span>
+                    <span className="bg-slate-800 rounded-full px-2 py-0.5">KYC: {f.additional_info.kyc}</span>
                   )}
                 </div>
               </div>
@@ -93,8 +93,8 @@ export default function CamsKfintechAnalytics({ raw }) {
           <ul className="space-y-2">
             {lifecycleEvents.map((e, i) => (
               <li key={i} className="flex items-start gap-3 text-sm">
-                <span className="text-xs text-slate-400 w-24 flex-shrink-0">{e.date || "—"}</span>
-                <span className="text-slate-700">{e.description}</span>
+                <span className="text-xs text-slate-500 w-24 flex-shrink-0">{e.date || "—"}</span>
+                <span className="text-slate-300">{e.description}</span>
               </li>
             ))}
           </ul>
